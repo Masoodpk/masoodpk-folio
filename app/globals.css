@@ -1,0 +1,394 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ───────── Colour tokens ───────── */
+:root {
+  --bg: #f7f6f2;
+  --surface: #efede6;
+  --text: #1c1b19;
+  --muted: #6e6a62;
+  --border: #e2dfd6;
+  --accent: #1f4e79;
+  color-scheme: light;
+}
+
+.dark {
+  --bg: #111315;
+  --surface: #1a1d20;
+  --text: #e8e6e1;
+  --muted: #9a968e;
+  --border: #2a2e33;
+  --accent: #7fb2e5;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-text: var(--text);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
+
+  --font-serif: var(--font-newsreader), ui-serif, Georgia, serif;
+  --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, "SFMono-Regular", monospace;
+}
+
+/* ───────── Base ───────── */
+html {
+  background: var(--bg);
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+@media (min-width: 1024px) {
+  body {
+    font-size: 1.0625rem;
+  }
+}
+
+::selection {
+  background: color-mix(in srgb, var(--accent) 22%, transparent);
+  color: var(--text);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Smooth colour change, only while the theme is being toggled */
+.theme-anim,
+.theme-anim *,
+.theme-anim *::before,
+.theme-anim *::after {
+  transition:
+    background-color 0.35s ease,
+    color 0.35s ease,
+    border-color 0.35s ease,
+    fill 0.35s ease,
+    stroke 0.35s ease !important;
+}
+
+/* ───────── Small type helpers ───────── */
+.label {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  line-height: 1.4;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* ───────── Links: underline grows from left ───────── */
+.link {
+  color: var(--text);
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  transition:
+    background-size 0.3s ease,
+    color 0.2s ease;
+}
+.link:hover,
+.link:focus-visible {
+  background-size: 100% 1px;
+}
+.link-accent {
+  color: var(--accent);
+}
+
+/* ↗ that nudges up-right */
+.arrow {
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+.group:hover .arrow,
+.group:focus-visible .arrow,
+a:hover > .arrow,
+a:focus-visible > .arrow {
+  transform: translate(2px, -2px);
+}
+.arrow-right {
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+a:hover > .arrow-right,
+a:focus-visible > .arrow-right {
+  transform: translateX(3px);
+}
+
+/* ───────── List hover: dim siblings ───────── */
+@media (hover: hover) and (min-width: 1024px) {
+  .dim-list > li {
+    transition: opacity 0.25s ease;
+  }
+  .dim-list:hover > li:not(:hover) {
+    opacity: 0.5;
+  }
+}
+
+/* ───────── Page-load fade-up (runs once) ───────── */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.rise {
+  animation: rise 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation-delay: calc(var(--i, 0) * 70ms);
+}
+
+/* ───────── Keycaps (hero role) ─────────
+   Classic white keycaps: a bevelled body with a slightly concave top face.
+   Keys stay light in both themes. */
+:root {
+  --cap-face-1: #ffffff;
+  --cap-face-2: #f1f0ed;
+  --cap-face-3: #e6e4df;
+  --cap-bevel-1: #efedea;
+  --cap-bevel-2: #c8c5be;
+  --cap-outline: #a29e95;
+  --cap-legend: #74716a;
+  --cap-shadow: rgb(28 27 25 / 0.28);
+}
+.dark {
+  --cap-face-1: #f2f1ee;
+  --cap-face-2: #e2e0dc;
+  --cap-face-3: #d4d1cb;
+  --cap-bevel-1: #dcd9d4;
+  --cap-bevel-2: #aeaaa2;
+  --cap-outline: #55524d;
+  --cap-legend: #6a675f;
+  --cap-shadow: rgb(0 0 0 / 0.7);
+}
+
+/* The row of keys (no plate: keys sit directly on the page) */
+.kb {
+  --k: clamp(1.8rem, calc((100vw - 6rem) / 9.3), 2.6rem); /* key size: phones, one row per word */
+  --gap: calc(var(--k) * 0.1);
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--gap);
+}
+.kb-row {
+  display: flex;
+  gap: var(--gap);
+}
+@media (min-width: 768px) {
+  .kb {
+    --k: clamp(1.8rem, calc((100vw - 9rem) / 18.6), 2.5rem); /* one line */
+    flex-direction: row;
+    gap: calc(var(--k) * 0.36); /* a little air between the two words */
+  }
+}
+
+.key {
+  display: block;
+  width: var(--k);
+  height: var(--k);
+  /* the bevel: thin at the top, wider at the sides, widest at the bottom */
+  padding: calc(var(--k) * 0.05) calc(var(--k) * 0.09) calc(var(--k) * 0.15);
+  border-radius: calc(var(--k) * 0.14);
+  border: 1px solid var(--cap-outline);
+  background:
+    linear-gradient(90deg, rgb(255 255 255 / 0.45), transparent 25%, transparent 75%, rgb(0 0 0 / 0.06)),
+    linear-gradient(180deg, var(--cap-bevel-1), var(--cap-bevel-2));
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.9),
+    0 1px 0 rgb(0 0 0 / 0.08),
+    0 3px 5px -1px var(--cap-shadow);
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  transition:
+    padding 50ms ease-out,
+    transform 50ms ease-out,
+    box-shadow 50ms ease-out;
+}
+.key-top {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  border-radius: calc(var(--k) * 0.1);
+  background: linear-gradient(180deg, var(--cap-face-1) 0%, var(--cap-face-2) 55%, var(--cap-face-3) 100%);
+  box-shadow:
+    0 0 0 1px rgb(0 0 0 / 0.07),
+    0 1px 1.5px rgb(0 0 0 / 0.12),
+    inset 0 1px 0 rgb(255 255 255 / 0.95),
+    inset 0 -1px 2px rgb(0 0 0 / 0.05);
+  color: var(--cap-legend);
+  font-family: var(--font-sans);
+  font-size: calc(var(--k) * 0.36);
+  font-weight: 300;
+  line-height: 1;
+  text-transform: uppercase;
+  transition: color 120ms ease;
+}
+.key:hover .key-top {
+  color: #2f2d29;
+}
+
+/* Pressed: the key drops and the top face sinks into the bevel */
+.key.is-down {
+  transform: translateY(1px);
+  padding: calc(var(--k) * 0.09) calc(var(--k) * 0.1) calc(var(--k) * 0.1);
+  box-shadow:
+    inset 0 1px 2px rgb(0 0 0 / 0.12),
+    0 1px 1px var(--cap-shadow);
+}
+.key.is-down .key-top {
+  color: var(--accent);
+  background: linear-gradient(180deg, var(--cap-face-2), var(--cap-face-3));
+}
+.dark .key.is-down .key-top {
+  color: #1f4e79; /* keys stay light, so use the light-theme accent */
+}
+
+/* ───────── Reading typography (blog posts) ───────── */
+.prose-ink {
+  max-width: 68ch;
+  font-size: 1.0625rem;
+  line-height: 1.75;
+}
+.prose-ink > * + * {
+  margin-top: 1.25em;
+}
+.prose-ink h2,
+.prose-ink h3 {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+  margin-top: 2.2em;
+}
+.prose-ink h2 {
+  font-size: 1.6rem;
+}
+.prose-ink h3 {
+  font-size: 1.3rem;
+}
+.prose-ink a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+.prose-ink a:hover {
+  text-decoration-thickness: 2px;
+}
+.prose-ink ul,
+.prose-ink ol {
+  padding-left: 1.3em;
+}
+.prose-ink ul {
+  list-style: disc;
+}
+.prose-ink ol {
+  list-style: decimal;
+}
+.prose-ink li + li {
+  margin-top: 0.4em;
+}
+.prose-ink li::marker {
+  color: var(--muted);
+}
+.prose-ink blockquote {
+  border-left: 2px solid var(--accent);
+  padding-left: 1.1em;
+  color: var(--muted);
+  font-family: var(--font-serif);
+  font-size: 1.15em;
+  font-style: italic;
+}
+.prose-ink hr {
+  border: 0;
+  text-align: center;
+  margin: 2.5em 0;
+}
+.prose-ink hr::after {
+  content: "· · ·";
+  color: var(--muted);
+  letter-spacing: 0.5em;
+}
+.prose-ink :not(pre) > code {
+  font-family: var(--font-mono);
+  font-size: 0.86em;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.1em 0.35em;
+}
+.prose-ink figure[data-rehype-pretty-code-figure] {
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
+}
+.prose-ink pre {
+  font-family: var(--font-mono);
+  font-size: 0.84rem;
+  line-height: 1.7;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem 1.1rem;
+  overflow-x: auto;
+}
+.prose-ink figcaption[data-rehype-pretty-code-title] {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--muted);
+  margin-bottom: 0.4rem;
+}
+
+/* Shiki dual themes */
+[data-rehype-pretty-code-figure] code span {
+  color: var(--shiki-light);
+}
+.dark [data-rehype-pretty-code-figure] code span {
+  color: var(--shiki-dark);
+}
+[data-highlighted-line] {
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  margin: 0 -1.1rem;
+  padding: 0 1.1rem;
+  border-left: 2px solid var(--accent);
+}
+
+/* ───────── Reduced motion ───────── */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+.prose-ink pre > code {
+  display: grid;
+}

@@ -1,0 +1,39 @@
+---
+title: "From 6.2 seconds to 1.1: fixing a slow dashboard"
+date: "2025-09-18"
+summary: "The reporting page wasn't slow because of React. It was slow because of four small decisions made years apart."
+---
+
+Our operations dashboard took over six seconds to show anything useful. Everyone assumed the frontend was the problem, because that is where the waiting happened. It wasn't.
+
+## Measure before you guess
+
+The first thing I did was open the network tab and sort by duration. One request, `/api/reports/summary`, took 4.8 seconds on its own. The page was waiting politely for it before rendering anything.
+
+```ts title="before.ts" {2}
+const rows = await db.query("SELECT * FROM orders");
+const summary = rows.filter((r) => r.status === "done").reduce(sum, 0);
+```
+
+We were pulling every order into memory to count a few hundred of them.
+
+## Let the database do database work
+
+```sql
+SELECT status, COUNT(*), SUM(total)
+FROM orders
+WHERE created_at > now() - interval '30 days'
+GROUP BY status;
+```
+
+With an index on `(created_at, status)` that query runs in 40ms.
+
+## What actually mattered
+
+- **One query** instead of one-plus-N.
+- **Streaming** the shell of the page first, so people see the layout immediately.
+- **Caching** the summary for 60 seconds, because nobody needs it fresher than that.
+
+> The fastest code is the code that runs somewhere better suited to it.
+
+None of this was clever. It was just paying attention.

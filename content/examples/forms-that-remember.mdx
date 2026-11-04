@@ -1,0 +1,38 @@
+---
+title: "Forms that remember what you typed"
+date: "2025-05-02"
+summary: "A small pattern for saving drafts that has saved our users a lot of frustration."
+---
+
+Losing a half-filled form is one of the most quietly infuriating things a website can do. The fix is usually twenty lines.
+
+## A tiny hook
+
+```tsx title="useDraft.ts"
+import { useEffect, useState } from "react";
+
+export function useDraft<T>(key: string, initial: T) {
+  const [value, setValue] = useState<T>(() => {
+    try {
+      const saved = localStorage.getItem(key);
+      return saved ? (JSON.parse(saved) as T) : initial;
+    } catch {
+      return initial;
+    }
+  });
+
+  useEffect(() => {
+    localStorage.setItem(key, JSON.stringify(value));
+  }, [key, value]);
+
+  return [value, setValue] as const;
+}
+```
+
+Clear the draft when the form submits successfully, and tell the user it was restored when it was. That's it.
+
+## Things to be careful about
+
+1. Never store passwords or payment details.
+2. Namespace the key by form and user, so drafts don't leak between accounts.
+3. Expire old drafts. A week is usually plenty.

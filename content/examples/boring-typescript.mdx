@@ -1,0 +1,28 @@
+---
+title: "In praise of boring TypeScript"
+date: "2024-11-12"
+summary: "Clever types are fun to write and painful to read. Here's where I draw the line."
+---
+
+I have written type-level code that I was very proud of for about a week. Then someone else had to change it.
+
+## The rule I use now
+
+If a type needs a comment to explain *how* it works, it is probably too clever. If it needs a comment to explain *why* it exists, that's fine.
+
+```ts
+// Good: obvious at a glance
+type Status = "draft" | "published" | "archived";
+
+type Post = {
+  id: string;
+  title: string;
+  status: Status;
+};
+```
+
+Discriminated unions, `satisfies`, and a few well-named utility types cover almost everything I need day to day. The rest is usually a sign that the data model wants to change, not the types.
+
+---
+
+Boring code is a gift to the next person. Often, the next person is you.

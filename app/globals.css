@@ -266,6 +266,64 @@ a:focus-visible > .arrow-right {
   color: #1f4e79; /* keys stay light, so use the light-theme accent */
 }
 
+/* A section label set on a small keycap, same text size as .label */
+.key-label {
+  display: inline-block;
+  padding: 0.4em 0.8em 0.55em;
+  border: 1px solid var(--cap-outline);
+  border-radius: 0.5em;
+  background: linear-gradient(180deg, var(--cap-face-1) 0%, var(--cap-face-2) 55%, var(--cap-face-3) 100%);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.95),
+    inset 0 -2px 0 var(--cap-bevel-2),
+    0 2px 4px -1px var(--cap-shadow);
+  color: var(--cap-legend);
+  line-height: 1;
+}
+.dark .key-label .text-accent {
+  color: #1f4e79; /* keys stay light, so use the light-theme accent */
+}
+
+/* Hero shard colours (mirror PALETTES in components/Shards.tsx), warm → cool */
+:root {
+  --shard-0: #c2473d;
+  --shard-1: #d9785a;
+  --shard-2: #e0a679;
+  --shard-3: #c9b48a;
+  --shard-4: #8fae9b;
+  --shard-5: #4f8f9a;
+  --shard-6: #2f6690;
+  --shard-7: #1f4e79;
+}
+.dark {
+  --shard-0: #e0605a;
+  --shard-1: #f0937a;
+  --shard-2: #f2c49a;
+  --shard-3: #efe3c4;
+  --shard-4: #b5d0bf;
+  --shard-5: #7fb8c0;
+  --shard-6: #4f8fc6;
+  --shard-7: #2f6aa3;
+}
+
+/* Tech tags as small keycaps */
+.keytag {
+  display: inline-block;
+  padding: 0.2rem 0.55rem 0.3rem;
+  border: 1px solid var(--cap-outline);
+  border-radius: 0.375rem;
+  background: linear-gradient(180deg, var(--cap-face-1) 0%, var(--cap-face-2) 55%, var(--cap-face-3) 100%);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.95),
+    inset 0 -2px 0 var(--cap-bevel-2),
+    0 1px 2px -0.5px var(--cap-shadow);
+  color: #57544d; /* keys stay light, so a fixed legend colour */
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  line-height: 1.25rem;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
 /* ───────── Reading typography (blog posts) ───────── */
 .prose-ink {
   max-width: 68ch;

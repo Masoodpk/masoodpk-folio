@@ -3,7 +3,11 @@
 import { useEffect, useState } from "react";
 import { nav } from "@/data/content";
 
-/** Section nav; the section in view is highlighted via IntersectionObserver. */
+/**
+ * Section nav. A section is highlighted once its top reaches the middle of the
+ * screen; at the very bottom of the page the last section wins, since a short
+ * final section may never reach the middle.
+ */
 export default function Nav() {
   const [active, setActive] = useState<string>(nav[0].id);
 
@@ -11,15 +15,25 @@ export default function Nav() {
     const sections = nav
       .map((n) => document.getElementById(n.id))
       .filter((el): el is HTMLElement => el !== null);
+    if (!sections.length) return;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) if (entry.isIntersecting) setActive(entry.target.id);
-      },
-      { rootMargin: "-35% 0px -60% 0px" },
-    );
-    sections.forEach((s) => observer.observe(s));
-    return () => observer.disconnect();
+    // a handful of rect reads per scroll event is cheap, so no throttling needed
+    const update = () => {
+      const line = window.innerHeight * 0.5;
+      const atBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
+      let current = sections[0].id;
+      for (const s of sections) if (s.getBoundingClientRect().top <= line) current = s.id;
+      if (atBottom) current = sections[sections.length - 1].id;
+      setActive(current);
+    };
+
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+    return () => {
+      window.removeEventListener("scroll", update);
+      window.removeEventListener("resize", update);
+    };
   }, []);
 
   return (

@@ -30,7 +30,17 @@ export const about: string[] = [
 ];
 
 /** A short "now" line shown under About. Set to "" to hide. */
-export const now = "Software Developer at IOCOD Infotech, building Easify · Kozhikode, Kerala";
+export const now = "Software Developer at IOCOD Infotech, building Easify · Kozhikode,\u00a0Kerala";
+
+/** Skills, grouped. Shown as pressable keycaps in the Skills section. */
+export const skills: { group: string; items: string[] }[] = [
+  {
+    group: "Frontend",
+    items: ["React.js", "Vue.js", "Nuxt.js", "Next.js", "TypeScript", "JavaScript", "HTML5", "CSS3", "Tailwind CSS", "Bootstrap"],
+  },
+  { group: "Backend", items: ["Node.js", "Express", "MongoDB", "REST APIs", "GraphQL"] },
+  { group: "Practices", items: ["Responsive design", "Accessibility", "Git", "Code reviews", "Documentation"] },
+];
 
 export type Experience = {
   start: string;
@@ -115,4 +125,5 @@ export const nav = [
   { id: "about", label: "About" },
   { id: "experience", label: "Experience" },
   { id: "projects", label: "Projects" },
+  { id: "skills", label: "Skills" },
 ] as const;

@@ -6,7 +6,7 @@ type Props = {
   style?: React.CSSProperties;
 };
 
-/** A section with a small mono index heading: "/ about ──── 01" */
+/** A section with a small mono index heading: "[/ about] ──── 01", the label set on a keycap like the hero. */
 export default function Section({ id, index, label, children, style }: Props) {
   return (
     <section
@@ -16,7 +16,7 @@ export default function Section({ id, index, label, children, style }: Props) {
       style={style}
     >
       <h2 id={`${id}-title`} className="label mb-8 flex items-center gap-4 text-muted">
-        <span>
+        <span className="key-label">
           <span className="text-accent">/</span> {label.toLowerCase()}
         </span>
         <span aria-hidden="true" className="h-px flex-1 bg-border" />

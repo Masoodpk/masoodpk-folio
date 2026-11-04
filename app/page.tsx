@@ -7,6 +7,7 @@ import Section from "@/components/Section";
 import ExperienceItem from "@/components/ExperienceItem";
 import ProjectItem from "@/components/ProjectItem";
 import RichText from "@/components/RichText";
+import Skills from "@/components/Skills";
 import ArrowLink from "@/components/ArrowLink";
 import Footer from "@/components/Footer";
 
@@ -32,8 +33,11 @@ export default function Home() {
               ))}
             </div>
             {now && (
-              <p className="mt-8 flex gap-3 border-l-2 border-accent pl-4 text-[0.95rem] text-muted">
-                <span className="label pt-1 text-accent">Now</span>
+              <p className="mt-10 flex items-baseline gap-4 border-t border-border pt-6 text-[0.95rem] text-muted">
+                <span className="label inline-flex shrink-0 items-center gap-2 text-accent">
+                  <span aria-hidden="true" className="size-1.5 rounded-full bg-accent ring-4 ring-accent/15" />
+                  Now
+                </span>
                 <span>{now}</span>
               </p>
             )}
@@ -63,8 +67,12 @@ export default function Home() {
             <ArrowLink href="/projects">View all projects</ArrowLink>
           </Section>
 
+          <Section id="skills" index={4} label="Skills" style={stagger(6)}>
+            <Skills />
+          </Section>
+
           {posts.length > 0 && (
-            <Section id="writing" index={4} label="Writing" style={stagger(6)}>
+            <Section id="writing" index={5} label="Writing" style={stagger(7)}>
               <ul className="dim-list -mx-4">
                 {posts.map((post) => (
                   <li key={post.slug}>

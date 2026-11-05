@@ -4,6 +4,7 @@ import { ThemeProvider } from "next-themes";
 import { site } from "@/data/content";
 import Spotlight from "@/components/Spotlight";
 import CommandMenu from "@/components/CommandMenu";
+import Loader from "@/components/Loader";
 import Toaster from "@/components/Toaster";
 import "./globals.css";
 
@@ -40,6 +41,13 @@ export const viewport: Viewport = {
   ],
 };
 
+/**
+ * Runs before first paint: skip the loading screen if it was already shown in
+ * this tab or the visitor prefers reduced motion; otherwise hold the page's
+ * entrance animation until it lifts (with a 4s safety net).
+ */
+const loaderScript = `(function(){try{var d=document.documentElement;if(sessionStorage.getItem("folio:loaded")||matchMedia("(prefers-reduced-motion: reduce)").matches){d.classList.add("no-loader")}else{d.classList.add("is-loading");setTimeout(function(){d.classList.remove("is-loading")},4000)}}catch(e){}})()`;
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html
@@ -47,8 +55,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       suppressHydrationWarning
       className={`${newsreader.variable} ${geist.variable} ${geistMono.variable}`}
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: loaderScript }} />
+      </head>
       <body>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
+          <Loader />
           <a
             href="#content"
             className="label fixed left-4 top-4 z-50 -translate-y-20 rounded-md bg-accent px-4 py-3 text-bg transition-transform focus:translate-y-0"

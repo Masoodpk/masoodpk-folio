@@ -44,9 +44,9 @@ export const viewport: Viewport = {
 /**
  * Runs before first paint: skip the loading screen if it was already shown in
  * this tab or the visitor prefers reduced motion; otherwise hold the page's
- * entrance animation until it lifts (with a 4s safety net).
+ * entrance animation until it lifts (with a 6s safety net).
  */
-const loaderScript = `(function(){try{var d=document.documentElement;if(sessionStorage.getItem("folio:loaded")||matchMedia("(prefers-reduced-motion: reduce)").matches){d.classList.add("no-loader")}else{d.classList.add("is-loading");setTimeout(function(){d.classList.remove("is-loading")},4000)}}catch(e){}})()`;
+const loaderScript = `(function(){try{var d=document.documentElement;if(sessionStorage.getItem("folio:loaded")||matchMedia("(prefers-reduced-motion: reduce)").matches){d.classList.add("no-loader")}else{d.classList.add("is-loading");setTimeout(function(){d.classList.remove("is-loading")},6000)}}catch(e){}})()`;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (

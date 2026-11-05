@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { site } from "@/data/content";
 import Keycaps from "./Keycaps";
+import KeyHint from "./KeyHint";
 import Shards from "./Shards";
 import SoundToggle from "./SoundToggle";
 import ThemeToggle from "./ThemeToggle";
@@ -57,9 +58,10 @@ export default function Hero() {
           <span className="text-accent">.</span>
         </h1>
 
-        <p className="rise mt-7" style={stagger(2)}>
+        <div className="rise mt-7" style={stagger(2)}>
           <Keycaps text={site.role} />
-        </p>
+          <KeyHint />
+        </div>
 
         <ul className="rise mt-9 flex items-center gap-2" style={stagger(3)}>
           {socials.map(({ label, href, Icon, external }) => (

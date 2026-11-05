@@ -314,8 +314,8 @@ a:focus-visible > .arrow-right {
   display: grid;
   place-items: center;
   overflow: hidden;
-  /* no-JS fallback: hide after 4s */
-  animation: loader-failsafe 0.01s linear 4s forwards;
+  /* no-JS fallback: hide after 6s */
+  animation: loader-failsafe 0.01s linear 6s forwards;
 }
 .no-loader .loader {
   display: none;
@@ -347,42 +347,124 @@ a:focus-visible > .arrow-right {
   opacity: 0;
   transform: translateY(-12px) scale(0.98);
 }
-.loader .kb {
-  --k: 3.25rem;
+/* The word: keys sit in their final places; animations start them elsewhere.
+   Per key: --sx/--sy/--sr = where and how it lands in the heap,
+   --fr = its spin while falling, --h = its hop height when lining up,
+   --d = when it drops, --o = when it lines up. */
+.loader-word {
+  --k: clamp(1.9rem, 8.5vw, 3.1rem);
   flex-direction: row;
+  align-items: flex-end;
+  gap: calc(var(--k) * 0.1);
+  perspective: 900px;
+}
+.loader-space {
+  width: calc(var(--k) * 0.45);
+}
+.loader-slot {
+  position: relative;
+  width: var(--k);
+  height: var(--k);
+}
+.loader-key {
+  position: absolute;
+  inset: 0;
+  cursor: default;
+  transform-style: preserve-3d;
+  animation:
+    loader-fall 0.9s var(--d) both,
+    loader-order 0.75s var(--o) forwards;
+}
+/* a soft shadow on the floor that grows as the key comes down */
+.loader-floor {
+  position: absolute;
+  left: 6%;
+  right: 6%;
+  bottom: calc(var(--k) * -0.16);
+  height: calc(var(--k) * 0.22);
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgb(28 27 25 / 0.22), transparent);
+  animation:
+    loader-floor-fall 0.9s var(--d) both,
+    loader-floor-order 0.75s var(--o) forwards;
+}
+.dark .loader-floor {
+  background: radial-gradient(closest-side, rgb(0 0 0 / 0.65), transparent);
 }
 
-/* keys press one after another, like typing the initials */
-.loader-key {
-  animation: loader-press 1.3s ease-in-out infinite;
-  animation-delay: calc(var(--n) * 0.2s);
+/* tumble down with gravity, squash on the floor, bounce twice, settle */
+@keyframes loader-fall {
+  0% {
+    transform: translate3d(var(--sx), -75vh, 0) rotateZ(var(--fr)) rotateX(70deg);
+    animation-timing-function: cubic-bezier(0.5, 0, 0.95, 0.5);
+  }
+  60% {
+    transform: translate3d(var(--sx), var(--sy), 0) rotateZ(var(--sr)) scale(1.06, 0.9);
+    animation-timing-function: cubic-bezier(0.1, 0.6, 0.4, 1);
+  }
+  75% {
+    transform: translate3d(var(--sx), calc(var(--sy) - var(--k) * 0.35), 0) rotateZ(calc(var(--sr) * 1.15));
+    animation-timing-function: cubic-bezier(0.6, 0, 0.9, 0.5);
+  }
+  88% {
+    transform: translate3d(var(--sx), var(--sy), 0) rotateZ(var(--sr)) scale(1.02, 0.97);
+    animation-timing-function: ease-out;
+  }
+  94% {
+    transform: translate3d(var(--sx), calc(var(--sy) - var(--k) * 0.06), 0) rotateZ(var(--sr));
+    animation-timing-function: ease-in;
+  }
+  100% {
+    transform: translate3d(var(--sx), var(--sy), 0) rotateZ(var(--sr));
+  }
 }
-.loader-key .key-top {
-  animation: loader-legend 1.3s ease-in-out infinite;
-  animation-delay: calc(var(--n) * 0.2s);
-}
-@keyframes loader-press {
-  0%,
-  30%,
+/* hop out of the heap, straighten up, drop into place */
+@keyframes loader-order {
+  0% {
+    transform: translate3d(var(--sx), var(--sy), 0) rotateZ(var(--sr));
+    animation-timing-function: cubic-bezier(0.3, 0, 0.3, 1);
+  }
+  45% {
+    transform: translate3d(calc(var(--sx) * 0.4), var(--h), 0) rotateZ(calc(var(--sr) * 0.3));
+    animation-timing-function: cubic-bezier(0.5, 0, 0.8, 0.6);
+  }
+  80% {
+    transform: translate3d(0, calc(var(--k) * 0.04), 0) scale(1.03, 0.96);
+    animation-timing-function: ease-out;
+  }
   100% {
     transform: none;
   }
-  12% {
-    transform: translateY(1px);
-    padding: calc(var(--k) * 0.09) calc(var(--k) * 0.1) calc(var(--k) * 0.1);
-    box-shadow:
-      inset 0 1px 2px rgb(0 0 0 / 0.12),
-      0 1px 1px var(--cap-shadow);
+}
+@keyframes loader-floor-fall {
+  0% {
+    transform: translateX(var(--sx)) scale(0.2);
+    opacity: 0;
+  }
+  60% {
+    transform: translateX(var(--sx)) scale(1.1);
+    opacity: 1;
+  }
+  75% {
+    transform: translateX(var(--sx)) scale(0.8);
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateX(var(--sx)) scale(1);
+    opacity: 1;
   }
 }
-@keyframes loader-legend {
-  0%,
-  30%,
-  100% {
-    color: var(--cap-legend);
+@keyframes loader-floor-order {
+  0% {
+    transform: translateX(var(--sx)) scale(1);
   }
-  12% {
-    color: #1f4e79;
+  45% {
+    transform: translateX(calc(var(--sx) * 0.4)) scale(0.7);
+    opacity: 0.6;
+  }
+  100% {
+    transform: none;
+    opacity: 1;
   }
 }
 
@@ -399,7 +481,7 @@ a:focus-visible > .arrow-right {
   background: var(--accent);
   transform-origin: left;
   transform: scaleX(0);
-  animation: loader-fill 1.6s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+  animation: loader-fill 3.3s cubic-bezier(0.3, 0.6, 0.4, 1) forwards;
 }
 .is-exiting .loader-bar-fill {
   animation: none;

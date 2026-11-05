@@ -27,6 +27,7 @@ export default function Keycaps({ text, className = "" }: { text: string; classN
     const down = (keys: Iterable<HTMLElement>, letter: string) => {
       for (const k of keys) k.classList.add("is-down");
       playKey(letter, "down");
+      window.dispatchEvent(new Event("folio:key")); // hides the "press a key" hint
       navigator.vibrate?.(6);
     };
     const up = (keys: Iterable<HTMLElement>, letter: string) => {

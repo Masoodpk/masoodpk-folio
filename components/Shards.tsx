@@ -13,6 +13,7 @@ import { useEffect, useRef } from "react";
  * - shards are batched by colour, so a frame is at most 8 fill calls
  * - the loop only runs while shards are alive (0% CPU when idle)
  * - disabled with prefers-reduced-motion
+ * - mouse/trackpad devices only; touch phones and tablets skip it entirely
  */
 
 type Shard = {
@@ -35,6 +36,9 @@ const PALETTES = {
   dark: ["#e0605a", "#f0937a", "#f2c49a", "#efe3c4", "#b5d0bf", "#7fb8c0", "#4f8fc6", "#2f6aa3"],
 };
 
+/** A mouse or trackpad: true on laptops/desktops, false on phones and tablets. */
+const FINE_POINTER = "(hover: hover) and (pointer: fine)";
+
 const POOL = 900;
 const DRAG = 0.94;
 
@@ -46,6 +50,8 @@ export default function Shards({ className = "" }: { className?: string }) {
     const ctx = canvas?.getContext("2d");
     if (!canvas || !ctx) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    // Cursor devices only: phones and tablets have no cursor to trail
+    if (!window.matchMedia(FINE_POINTER).matches) return;
 
     let width = 0;
     let height = 0;
@@ -240,5 +246,5 @@ export default function Shards({ className = "" }: { className?: string }) {
     };
   }, []);
 
-  return <canvas ref={canvasRef} aria-hidden="true" className={`pointer-events-none ${className}`} />;
+  return <canvas ref={canvasRef} aria-hidden="true" className={`pointer-events-none hidden [@media(hover:hover)_and_(pointer:fine)]:block ${className}`} />;
 }

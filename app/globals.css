@@ -548,6 +548,54 @@ a:focus-visible > .arrow-right {
   letter-spacing: 0.02em;
   white-space: nowrap;
 }
+/* Contact form's Send button: a wide keycap that sinks when pressed */
+.key-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.55rem 0.95rem 0.7rem 1.1rem;
+  border: 1px solid var(--cap-outline);
+  border-radius: 0.55rem;
+  background: linear-gradient(180deg, var(--cap-face-1) 0%, var(--cap-face-2) 55%, var(--cap-face-3) 100%);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.95),
+    inset 0 -3px 0 var(--cap-bevel-2),
+    0 3px 5px -1px var(--cap-shadow);
+  color: #2f2d29; /* keys stay light, so a fixed legend colour */
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  line-height: 1;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  transition:
+    transform 60ms ease-out,
+    box-shadow 60ms ease-out,
+    color 120ms ease;
+}
+.key-btn:hover {
+  color: #1f4e79;
+}
+.key-btn:active,
+.key-btn:disabled {
+  transform: translateY(2px);
+  box-shadow:
+    inset 0 1px 2px rgb(0 0 0 / 0.12),
+    inset 0 -1px 0 var(--cap-bevel-2),
+    0 1px 1px var(--cap-shadow);
+}
+.key-btn:disabled {
+  cursor: progress;
+  color: var(--cap-legend);
+}
+.key-btn-glyph {
+  color: #1f4e79;
+  font-size: 0.95rem;
+}
+
 /* ───────── Reading typography (blog posts) ───────── */
 .prose-ink {
   max-width: 68ch;

@@ -10,6 +10,7 @@ import RichText from "@/components/RichText";
 import Skills from "@/components/Skills";
 import ArrowLink from "@/components/ArrowLink";
 import Footer from "@/components/Footer";
+import ContactForm from "@/components/ContactForm";
 
 const stagger = (i: number) => ({ "--i": i }) as React.CSSProperties;
 
@@ -94,6 +95,10 @@ export default function Home() {
               <ArrowLink href="/blog">All writing</ArrowLink>
             </Section>
           )}
+
+          <Section id="contact" index={posts.length > 0 ? 6 : 5} label="Contact" style={stagger(8)}>
+            <ContactForm />
+          </Section>
 
           <Footer />
         </main>

@@ -284,7 +284,7 @@ a:focus-visible > .arrow-right {
   color: #1f4e79; /* keys stay light, so use the light-theme accent */
 }
 
-/* Hero shard colours (mirror PALETTES in components/Shards.tsx), warm → cool */
+/* Shard colours, warm → cool (loader burst, skill separators, form errors) */
 :root {
   --shard-0: #c2473d;
   --shard-1: #d9785a;

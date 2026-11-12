@@ -2,7 +2,6 @@ import Image from "next/image";
 import { site } from "@/data/content";
 import Keycaps from "./Keycaps";
 import KeyHint from "./KeyHint";
-import Shards from "./Shards";
 import SoundToggle from "./SoundToggle";
 import ThemeToggle from "./ThemeToggle";
 import { FileIcon, GitHubIcon, LinkedInIcon, MailIcon } from "./Icons";
@@ -16,7 +15,7 @@ const socials = [
 
 const stagger = (i: number) => ({ "--i": i }) as React.CSSProperties;
 
-/** Full-screen intro: photo, name, role and links over the "Shards" background. */
+/** Full-screen intro: photo, name, role and links. */
 export default function Hero() {
   return (
     <section
@@ -24,8 +23,6 @@ export default function Hero() {
       aria-label="Introduction"
       className="relative isolate flex min-h-[560px] h-svh items-center justify-center overflow-hidden px-6"
     >
-      {/* hidden until you move over the hero: the cursor sprays shards */}
-      <Shards className="absolute inset-0 -z-10 size-full" />
       <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-48"
         style={{ background: "linear-gradient(to bottom, color-mix(in srgb, var(--bg) 0%, transparent), var(--bg))" }}
       />

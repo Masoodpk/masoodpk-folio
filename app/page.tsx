@@ -53,7 +53,7 @@ export default function Home() {
               ))}
             </ol>
             <ArrowLink href={site.resume} external>
-              View full résumé
+              View full resume
             </ArrowLink>
           </Section>
 

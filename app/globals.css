@@ -266,24 +266,6 @@ a:focus-visible > .arrow-right {
   color: #1f4e79; /* keys stay light, so use the light-theme accent */
 }
 
-/* A section label set on a small keycap, same text size as .label */
-.key-label {
-  display: inline-block;
-  padding: 0.4em 0.8em 0.55em;
-  border: 1px solid var(--cap-outline);
-  border-radius: 0.5em;
-  background: linear-gradient(180deg, var(--cap-face-1) 0%, var(--cap-face-2) 55%, var(--cap-face-3) 100%);
-  box-shadow:
-    inset 0 1px 0 rgb(255 255 255 / 0.95),
-    inset 0 -2px 0 var(--cap-bevel-2),
-    0 2px 4px -1px var(--cap-shadow);
-  color: var(--cap-legend);
-  line-height: 1;
-}
-.dark .key-label .text-accent {
-  color: #1f4e79; /* keys stay light, so use the light-theme accent */
-}
-
 /* Shard colours, warm → cool (loader burst, skill separators, form errors) */
 :root {
   --shard-0: #c2473d;

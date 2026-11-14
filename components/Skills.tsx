@@ -3,25 +3,18 @@
 import { skills } from "@/data/content";
 import { playKey } from "@/lib/keySound";
 
-/** A single glass sliver, the same shape the hero's cursor sprays. */
-function Shard({ index, count }: { index: number; count: number }) {
-  // colour drifts warm → cool along the row, like the hero; every shard leans the same way
-  const colour = Math.round((index / Math.max(1, count - 1)) * 7);
+/** A quiet mono slash between skills, the same "/" the site uses in "/ index". */
+function Sep() {
   return (
-    <svg
-      aria-hidden="true"
-      viewBox="0 0 12 12"
-      className="mx-2.5 inline-block size-[0.8em] -rotate-[35deg] align-[-0.05em] opacity-90"
-      style={{ color: `var(--shard-${colour})` }}
-    >
-      <polygon points="11.5,3 0.5,8.2 2.6,10.4" fill="currentColor" />
-    </svg>
+    <span aria-hidden="true" className="mx-2.5 font-mono text-[0.85em] text-muted/45 select-none">
+      /
+    </span>
   );
 }
 
 /**
  * Skills as a compact spec sheet: one row per group, with the same
- * mono label column as Experience and hero shards between the skills.
+ * mono label column as Experience and a quiet slash between the skills.
  * Each skill lights up on hover and clicks like a key when pressed.
  */
 export default function Skills() {
@@ -52,7 +45,7 @@ export default function Skills() {
                   >
                     {item}
                   </span>
-                  {i < items.length - 1 && <Shard index={i} count={items.length - 1} />}
+                  {i < items.length - 1 && <Sep />}
                 </li>
               ))}
             </ul>

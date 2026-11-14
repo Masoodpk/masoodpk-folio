@@ -50,7 +50,7 @@ export default function CommandMenu() {
         label: resolvedTheme === "dark" ? "Switch to light theme" : "Switch to dark theme",
         run: () => switchTheme(setTheme, resolvedTheme),
       },
-      { id: "resume", group: "Actions", label: "Open résumé", hint: "PDF", run: () => window.open(site.resume, "_blank") },
+      { id: "resume", group: "Actions", label: "Open resume", hint: "PDF", run: () => window.open(site.resume, "_blank") },
       { id: "github", group: "Elsewhere", label: "GitHub", run: () => window.open(site.links.github, "_blank") },
       { id: "linkedin", group: "Elsewhere", label: "LinkedIn", run: () => window.open(site.links.linkedin, "_blank") },
     ],

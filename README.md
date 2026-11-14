@@ -19,7 +19,7 @@ Deploy: push to GitHub and import the repo on Vercel. No settings needed.
 | --- | --- |
 | Name, role, links, email, about, experience, projects | `data/content.ts` |
 | Blog posts | `content/posts/*.mdx` (frontmatter: `title`, `date`, `summary`) |
-| Résumé | replace `public/resume.pdf` |
+| Resume | replace `public/resume.pdf` |
 | Project screenshots (optional) | put images in `public/projects/` and set `image: "/projects/x.png"` |
 | Colours | CSS variables at the top of `app/globals.css` |
 | Site URL for SEO | `site.url` in `data/content.ts` |

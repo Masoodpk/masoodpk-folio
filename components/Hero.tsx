@@ -10,7 +10,7 @@ const socials = [
   { label: "GitHub", href: site.links.github, Icon: GitHubIcon, external: true },
   { label: "LinkedIn", href: site.links.linkedin, Icon: LinkedInIcon, external: true },
   { label: "Email", href: `mailto:${site.email}`, Icon: MailIcon, external: false },
-  { label: "Résumé", href: site.resume, Icon: FileIcon, external: true },
+  { label: "Resume", href: site.resume, Icon: FileIcon, external: true },
 ];
 
 const stagger = (i: number) => ({ "--i": i }) as React.CSSProperties;

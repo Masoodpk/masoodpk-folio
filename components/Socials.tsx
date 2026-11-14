@@ -18,7 +18,7 @@ export default function Socials() {
         <a href={site.links.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn (opens in a new tab)" className={iconLink}>
           <LinkedInIcon />
         </a>
-        <a href={site.resume} target="_blank" rel="noopener noreferrer" aria-label="Résumé PDF (opens in a new tab)" className={iconLink}>
+        <a href={site.resume} target="_blank" rel="noopener noreferrer" aria-label="Resume PDF (opens in a new tab)" className={iconLink}>
           <FileIcon />
         </a>
         <span aria-hidden="true" className="mx-1 h-4 w-px bg-border" />
